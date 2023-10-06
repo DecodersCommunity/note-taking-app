@@ -210,7 +210,7 @@
             <div class="content">
                 <header>
                     <p>Add a new note</p>
-                    <i class="uil uil-times"></i>
+                    <i id="closeButton" class="uil uil-times"></i>
                 </header>
                 <form action="#">
                     <div class="row title">
@@ -246,6 +246,12 @@
         addBox.addEventListener('click', () => {
             titleEl.focus();
             popupBox.classList.add('show')
+        });
+
+        // Code to close the popup by click on the cross button
+        let closeBtn = document.getElementById('closeButton');
+        closeBtn.addEventListener('click', ()=>{
+            popupBox.classList.remove('show');
         });
     </script>
 
