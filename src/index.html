@@ -227,6 +227,42 @@
             text-transform: uppercase;
             letter-spacing: 2px;
         }
+
+        /* Reset default margin and padding for the body and container */
+body, .container {
+    margin: 0;
+    padding: 0;
+}
+
+/* Style the container to center the footer */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Center vertically in the viewport */
+}
+
+/* Style the footer */
+.footer {
+    background-color: #333; /* Background color for the footer */
+    color: #fff; /* Text color */
+    text-align: center; /* Center-align the text */
+    padding: 10px; /* Add some padding to the footer */
+    width: 100%; /* Make it span the entire width */
+}
+
+/* Style the copyright text */
+.footer p {
+    margin: 0; /* Remove any default margin */
+}
+
+/* Media query for responsiveness */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+}
+
     </style>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <title>Note Taking</title>
@@ -265,6 +301,12 @@
         
 <!--         The new Notes should appear here as <li> elements -->
         
+    </div>
+
+    <div class="container">
+        <div class="footer">
+            <p>&copy; 2023 Your Note-Taking App</p>
+        </div>
     </div>
 
     <script>
