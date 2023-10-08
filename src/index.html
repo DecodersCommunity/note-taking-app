@@ -31,7 +31,10 @@
             margin: 50px;
             display: grid;
             gap: 15px;
-            grid-template-columns: repeat(auto-fill, 265px);
+            grid-template-columns: repeat(2, 265px);
+            height: 50vh;
+            justify-content: center;
+            align-items: center;
         }
 
         .wrapper li {
@@ -40,6 +43,12 @@
             background: var(--secondarycolor);
             border-radius: 5px;
             padding: 15px 20px 20px;
+            
+        }
+        .wrapper .add-desc{
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .add-box,
@@ -239,6 +248,7 @@
       
     </style>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <title>Note Taking</title>
 </head>
 
@@ -260,7 +270,7 @@
                         <label for="">Description</label>
                         <textarea></textarea>
                     </div>
-                    <button>Add Note</button>
+                    <button>Add Notes</button>
                 </form>
             </div>
         </div>
@@ -272,6 +282,9 @@
             </div>
 
         </li>
+        <div class="add-desc">
+            <span>Click to add notes <i class="fa-solid fa-book"></i></span>
+        </div>
         
 <!--         The new Notes should appear here as <li> elements -->
         
