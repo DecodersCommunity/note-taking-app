@@ -142,7 +142,7 @@ header {
 
 .bottom-content .settings i {
     color: var(--primaryText);
-    font-size: 15px;
+    font-size: 30px;
     cursor: pointer !important;
     padding: 0 10px;
 }
@@ -274,8 +274,4 @@ form .row label {
 .heading:hover {
     font-size: 45px;
     background-color: #9fc;
-}
-
-.settings .uil {
-    font-size: 60px;
 }
