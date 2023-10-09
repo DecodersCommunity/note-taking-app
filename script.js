@@ -64,7 +64,6 @@ document.addEventListener("DOMContentLoaded", function () {
                         titleEl.value = "";
                         descriptionEl.value = "";
                         popupBox.classList.remove('show');
-                        saveNote()
                     }
                 }
 
@@ -87,30 +86,6 @@ document.addEventListener("DOMContentLoaded", function () {
             // Event listener for the close button .
             const closeButton = document.querySelector('.uil-times');
             closeButton.addEventListener('click', closePopup);
-
-            //to remove notes
-            function removeNote(iconElement) {
-                const noteElement = iconElement.closest('li');
-
-                if (noteElement) {
-                    noteElement.remove();
-                    saveNote();
-                }
-            }
-
-            //to save notes
-
-            function saveNote() {
-                localStorage.setItem("data", noteList.innerHTML);
-            }
-
-            function showNote() {
-                const savedData = localStorage.getItem("data");
-
-                if (savedData) {
-                    noteList.innerHTML = savedData;
-                }
-            }
 
             noteList.appendChild(note);
             titleEl.value = "";
