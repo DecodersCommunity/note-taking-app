@@ -7,342 +7,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- <link rel="stylesheet" href="style.css"> -->
     <style>
-        :root {
-            --primaryColor: #0e153a;
-            --secondarycolor: #e2f3f5;
-            --primaryText: #3d5af1;
-            --buttonHoverColor: #2bbb39;
-        }
+       
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-                "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-        }
 
         body {
-            background-color: #3888de;
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
-        }
+    font-family: Arial, sans-serif;
+    background-color: #23d2b2;
+    margin: 0;
+    padding: 0;
+}
 
-        .wrapper {
-            margin: 50px;
-            display: grid;
-            gap: 15px;
-            grid-template-columns: repeat(auto-fill, 265px);
-        }
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgb(210, 222, 44);
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
 
-        .wrapper li {
-            height: 250px;
-            list-style: none;
-            background: var(--secondarycolor);
-            border-radius: 5px;
-            padding: 15px 20px 20px;
-        }
+h1 {
+    text-align: center;
+}
 
-        .add-box,
-        .icon,
-        .bottom-content,
-        .popup,
-        header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        /* Add Box styles */
-        .add-box {
-            display: flex;
-            align-items: center;
-            background: #3ab753;
-            color: #ecbbbb;
-            border: none;
-            border-radius: 5px;
-            padding: 20px;
-            flex-direction: column;
-            justify-content: center;
-            cursor: pointer;
-            transition: background-color 0.2a ease;
-        }
-        .add-box:hover{
-            background: var(--buttonHoverColor);
-        }
+.note-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 
-        .add-box .icon {
-            height: 88px;
-            width: 88px;
-            font-size: 60px;
-            justify-content: center;
-            color: var(--primaryColor);
-        }
+#note-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
 
-        .add-box p {
-            color: var(--primaryText);
-            font-weight: 500;
-            margin-top: 20px;
-        }
+#add-note {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
 
-        .wrapper .note {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+ul {
+    list-style-type: none;
+    padding: 0;
+}
 
-        .note p {
-            font-size: 22px;
-            font-weight: 500;
-            color: var(--primaryColor);
-        }
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
 
-        .note span {
-            display: block;
-            margin-top: 5px;
-            color: var(--primaryText);
-            font-size: 16px;
-        }
+.delete-button {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+</style>
 
-        .bottom-content span {
-            color: var(--primaryText);
-            font-size: 14px;
-        }
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const noteInput = document.getElementById("note-input");
+    const addNoteButton = document.getElementById("add-note");
+    const noteList = document.getElementById("note-list");
 
-        .bottom-content .settings i {
-            color: var(--primaryText);
-            font-size: 15px;
-            cursor: pointer !important;
-            padding: 0 10px;
+    addNoteButton.addEventListener("click", function () {
+        const noteText = noteInput.value.trim();
+        if (noteText !== "") {
+            createNoteElement(noteText);
+            noteInput.value = "";
         }
+    });
 
-        .popup-box {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100%;
-            z-index: 2;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+    noteList.addEventListener("click", function (e) {
+        if (e.target && e.target.classList.contains("delete-button")) {
+            e.target.parentElement.remove();
         }
+    });
 
-        .popup-box .popup {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            z-index: 3;
-            max-width: 400px;
-            width: 100%;
-            justify-content: center;
-            transform: translate(-50%, -50%);
-        }
+    function createNoteElement(text) {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span>${text}</span>
+            <button class="delete-button">Delete</button>
+        `;
+        noteList.appendChild(li);
+    }
+});
 
-        .popup-box,
-        .popup-box .popup {
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.25s ease;
-            z-index: -1;
-        }
+</script>
 
-        .popup-box.show,
-        .popup-box .popup {
-            opacity: 1;
-            pointer-events: auto;
-            z-index: 3;
-        }
-
-        .popup .content {
-            width: calc(100% - 15px);
-            border-radius: 5px;
-            background: #fff;
-        }
-
-        .popup .content header {
-            padding: 15px 25px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .content header p {
-            font-size: 20px;
-            font-weight: 500;
-        }
-
-        .content header i {
-            color: #575757;
-            cursor: pointer;
-            font-size: 20px;
-        }
-
-        .content form {
-            margin: 15px 25px 35px;
-        }
-
-        .content form .row {
-            margin-bottom: 20px;
-        }
-
-        form .row label {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 6px;
-        }
-
-        .content form :where(input, textarea) {
-            width: 100%;
-            height: 50px;
-            outline: none;
-            font-size: 17px;
-            padding: 0 15px;
-            border-radius: 4px;
-            border: 1px solid yellowgreen;
-            border-width: 2px;
-        }
-
-        .content form textarea {
-            height: 150px;
-            padding: 8px 15px;
-            resize: none;
-        }
-
-        .content form button {
-            width: 100%;
-            height: 50px;
-            border: none;
-            outline: none;
-            border-radius: 5px;
-            color: #fff;
-            font-size: 17px;
-            /* background: var(--primaryColor); */
-            background-color: rgb(235, 63, 63);
-        }
-        /* Styling the heading */
-        .heading {
-            font-size: 40px;
-            font-weight: bold;
-            color: var(--primaryColor);
-            text-align: center;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background-color: #9f5794;
-            border-style: groove;
-            border-color: #124d8d;
-            font-style: oblique;
-        }
-        .heading:hover{
-            font-size: 45px;
-            background-color: #9fc;
-
-        }
-      
-    </style>
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
-    <title>Note Taking</title>
+        
 </head>
 
 <body>
     <h1 class="heading">*---Add your notes here---*</h1>
-    <div class="popup-box">
-        <div class="popup">
-            <div class="content">
-                <header>
-                    <p>Add a new note</p>
-                    <i class="uil uil-times"></i>
-                </header>
-                <form action="#">
-                    <div class="row title">
-                        <label for="">Title</label>
-                        <input type="text">
-                    </div>
-                    <div class="row description">
-                        <label for="">Description</label>
-                        <textarea></textarea>
-                    </div>
-                    <button>Add Note</button>
-                </form>
-            </div>
+  
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Making App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Note Making App</h1>
+        <div class="note-container">
+            <input type="text" id="note-input" placeholder="Add a new note">
+            <button id="add-note">Add Note</button>
         </div>
+        <ul id="note-list">
+            <!-- Notes will be added here dynamically -->
+        </ul>
     </div>
-    <div class="wrapper">
-        <li class="add-box">
-            <div class="icon">
-                <i class="uil uil-file-plus-alt"></i>
-            </div>
-
-        </li>
-        
-<!--         The new Notes should appear here as <li> elements -->
-        
-    </div>
-
-    <script>
-        // add your javascript code here!!
-        // THIS IS FOR ISSUE #1
-        // I have given some logic for example
-        const addBox = document.querySelector('.add-box'), titleEl = document.querySelector('input'), popupBox = document.querySelector('.popup-box');
-        addBox.addEventListener('click', () => {
-            titleEl.focus();
-            popupBox.classList.add('show')
-        });
-        // script for fixingpop-up box issue
-        document.addEventListener("DOMContentLoaded", function () {
-            const addBox = document.querySelector('.add-box');
-            const titleEl = document.querySelector('input');
-            const descriptionEl = document.querySelector('textarea');
-            const popupBox = document.querySelector('.popup-box');
-            const noteList = document.querySelector('.wrapper');
-        
-            // Here is function to add a new note.
-            function addNote() {
-                const title = titleEl.value.trim();
-                const description = descriptionEl.value.trim();
-            
-                if (title !== "") {
-                    const note = document.createElement('li');
-                    note.innerHTML = `
-                        <div class="note">
-                            <p>${title}</p>
-                            <span>${description}</span>
-                        </div>
-                        <div class="bottom-content">
-                            <span>Date: ${new Date().toLocaleDateString()}</span>
-                            <div class="settings">
-                                <i class="uil uil-pen" onclick="editNote(this)"></i>
-                                <i class="uil uil-trash-alt" onclick="removeNote(this)"></i>
-                            </div>
-                        </div>
-                    `;
-                    
-                    noteList.appendChild(note);
-                    titleEl.value = "";
-                    descriptionEl.value = "";
-                    popupBox.classList.remove('show');
-                }
-            }
-
-        // Event listeners
-        addBox.addEventListener('click', () => {
-            titleEl.focus();
-            popupBox.classList.add('show');
-        });
-
-        const addButton = document.querySelector('.content form button');
-        addButton.addEventListener('click', addNote);
-        });
-
-        // Function to close the popup .
-        function closePopup() {
-            const popupBox = document.querySelector('.popup-box');
-            popupBox.classList.remove('show');
-        }
-
-        // Event listener for the close button .
-        const closeButton = document.querySelector('.uil-times');
-        closeButton.addEventListener('click', closePopup);
-
-    </script>
+    
+</body>
+</html>
 
 </body>
 
