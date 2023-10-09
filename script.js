@@ -4,7 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const descriptionEl = document.querySelector('textarea');
     const popupBox = document.querySelector('.popup-box');
     const noteList = document.querySelector('.list-container');
+    const form = document.querySelector("#form");
 
+    form.addEventListener("submit", function (e) {
+        e.preventDefault()
+    })
     // Function to add a new note.
     function addNote() {
         const title = titleEl.value.trim();
