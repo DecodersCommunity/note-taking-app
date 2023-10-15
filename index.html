@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Taking</title>
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+    <style>
+        /* Variables */
+:root {
+    --primaryColor: #0e153a;
+    --secondaryColor: #e2f3f5;
+    --primaryText: #3d5af1;
+    --buttonHoverColor: #2bbb39;
+}
+
+/* Reset Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+        "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    
+}
+
+/* Body Styles */
+body {
+    background-color: #3888de;
+    height: 100vh;
+}
+
+/* Wrapper Styles */
+.wrapper {
+    height: calc(100vh - 120px);
+    margin: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 95%;
+    gap: 15px;
+    background-color: #124d8d;
+    border-radius: 10px;
+    padding: 10px 5px;
+    overflow: hidden;
+}
+
+.wrapper ul{
+    width: 75%;
+    overflow-y: auto;    
+    border-radius: 10px;
+}
+.wrapper ul::-webkit-scrollbar{
+    width: 8px;
+
+}
+.wrapper ul::-webkit-scrollbar-track{
+    background-color: #3888de;
+    border-radius: 8px;
+    border: 1px solid #ff5945;
+}
+.wrapper ul::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    border: 1px solid #3888de;
+    background-color: #2bbb39;
+}
+
+.list-container li{
+    height: 120px;
+    width: 100%;
+    list-style: none;
+    background: var(--secondaryColor);
+    border-radius: 10px;
+    padding: 15px 20px 20px;
+    margin-top: 7px;
+}
+
+/* Common Styles for Several Elements */
+.add-box,
+.icon,
+.bottom-content,
+.popup,
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Add Box Styles */
+.wrapper .add-box {
+    display: flex;
+    width: 80%;
+    min-height: 100px;
+    max-height: 100px;
+    align-items: center;
+    background: #3ab753;
+    color: #ecbbbb;
+    border: 2px solid red;
+    border-radius: 5px;
+    justify-content: space-between;
+    transition: background-color 0.2s ease;
+    border-radius: 20px;
+    padding: 0px 20px;
+    padding-right: 0;
+    overflow: hidden;   
+}
+
+.add-box:hover {
+    background: var(--buttonHoverColor);
+    color: #e2f3f5;
+}
+
+.add-box button {
+    border: none;
+    outline: none;
+    padding: 16px 80px;
+    background: #ff5945;
+    color: white;
+    font-size: 60px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.add-box p {
+    color: var(--primaryText);
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+/* Note Styles */
+.wrapper .note {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.note p {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--primaryColor);
+}
+
+.note span {
+    display: block;
+    margin-top: 5px;
+    color: var(--primaryText);
+    font-size: 16px;
+}
+
+/* Bottom Content Styles */
+.bottom-content span {
+    color: var(--primaryText);
+    font-size: 14px;
+}
+
+.bottom-content .settings i {
+    color: var(--primaryText);
+    font-size: 30px;
+    cursor: pointer !important;
+    padding: 10px 10px;
+    transition: cubic-bezier(0.19, 1, 0.22, 1) 0.5s;
+}
+
+.settings i:hover{
+    border-radius: 10px;
+    background-color: rgba(245, 222, 179, 0.228);
+}
+
+/* Popup Styles */
+.popup-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 2;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-box .popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    max-width: 400px;
+    width: 100%;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    border: 2px solid red;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.popup-box,
+.popup-box .popup {
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s ease;
+    z-index: -1;
+}
+
+.popup-box.show,
+.popup-box .popup {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 3;
+}
+
+.popup .content {
+    width: calc(100% - 15px);
+    border-radius: 5px;
+    background: #fff;
+}
+
+.popup .content header {
+    padding: 15px 25px;
+    border-bottom: 1px solid #ccc;
+}
+
+.content header p {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.content header i {
+    color: #575757;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.content form {
+    margin: 15px 25px 35px;
+}
+
+.content form .row {
+    margin-bottom: 20px;
+}
+
+form .row label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 6px;
+}
+
+.content form :where(input, textarea) {
+    width: 100%;
+    height: 50px;
+    outline: none;
+    font-size: 17px;
+    padding: 0 15px;
+    border-radius: 4px;
+    border: 1px solid yellowgreen;
+    border-width: 2px;
+}
+
+.content form textarea {
+    height: 150px;
+    padding: 8px 15px;
+    resize: none;
+}
+
+.content form button {
+    width: 100%;
+    height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 17px;
+    background-color: rgb(235, 63, 63);
+}
+
+/* Heading Styles */
+.heading {
+    height: 60px;
+    font-size: 40px;
+    font-weight: bold;
+    color: var(--primaryColor);
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background-color: #9f5794;
+    border-style: groove;
+    border-color: #124d8d;
+    font-style: oblique;
+    transition: cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
+}
+
+.heading:hover {
+    font-size: 45px;
+    background-color: #9fc;
+}
+    </style>
+</head>
+
+<body>
+    <h1 class="heading">*---Add your notes here---*</h1>
+    <div class="popup-box">
+        <div class="popup">
+            <div class="content">
+                <header>
+                    <p>Add a new note</p>
+                    <i class="uil uil-times"></i>
+                </header>
+                <form id="form">
+                    <div class="row title">
+                        <label for="">Title</label>
+                        <input type="text">
+                    </div>
+                    <div class="row description">
+                        <label for="">Description</label>
+                        <textarea></textarea>
+                    </div>
+                    <button onclick="addNote()">Add Note</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="add-box">
+            <h1>Add your Task</h1>
+            <button>
+                <i class="uil uil-file-plus-alt"></i>
+            </button>
+        </div>
+        <ul class="list-container">
+        </ul>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const addBox = document.querySelector('.add-box');
+    const titleEl = document.querySelector('input');
+    const descriptionEl = document.querySelector('textarea');
+    const popupBox = document.querySelector('.popup-box');
+    const noteList = document.querySelector('.list-container');
+    const form = document.querySelector("#form");
+
+    form.addEventListener("submit", function (e) {
+        e.preventDefault()
+    })
+    // Function to add a new note.
+    function addNote() {
+        const title = titleEl.value.trim();
+        const description = descriptionEl.value.trim();
+
+        if (title === "") {
+            alert("Please write something");
+        }
+
+        if (title !== "") {
+            const note = document.createElement('li');
+            note.innerHTML = `
+                <div class="note">
+                    <p>${title}</p>
+                    <span>${description}</span>
+                </div>
+                <div class="bottom-content">
+                    <span>Date: ${new Date().toLocaleDateString()}</span>
+                    <div class="settings">
+                        <i class="uil uil-square-full" id="check" onclick="tickNote(this)"></i>
+                        <i class="uil uil-trash-alt" id="delete" onclick="removeNote(this)"></i>
+                    </div>
+                </div>
+            `;
+
+            noteList.appendChild(note);
+            titleEl.value = "";
+            descriptionEl.value = "";
+            popupBox.classList.remove('show');
+        }
+    }
+
+    // Event listeners
+    addBox.addEventListener('click', () => {
+        titleEl.focus();
+        popupBox.classList.add('show');
+    });
+
+    const addButton = document.querySelector('.content form button');
+    addButton.addEventListener('click', addNote);
+
+});
+
+// Function to close the popup.
+function closePopup() {
+    const popupBox = document.querySelector('.popup-box');
+    popupBox.classList.remove('show');
+}
+
+// Event listener for the close button.
+const closeButton = document.querySelector('.uil-times');
+closeButton.addEventListener('click', closePopup);
+
+
+function removeNote(element) {
+    const note = element.closest('li');
+    if (note) {
+        note.remove();
+    }
+}
+
+function tickNote(element) {
+    element.classList.toggle("uil-square-full");
+    element.classList.toggle("uil-check-square");
+}
+    </script>
+</body>
+
+</html>
