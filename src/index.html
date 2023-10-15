@@ -24,7 +24,7 @@
 
         body {
             background-color: #3888de;
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.5);
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
         }
 
         .wrapper {
@@ -51,6 +51,7 @@
             align-items: center;
             justify-content: space-between;
         }
+
         /* Add Box styles */
         .add-box {
             display: flex;
@@ -65,7 +66,8 @@
             cursor: pointer;
             transition: background-color 0.2a ease;
         }
-        .add-box:hover{
+
+        .add-box:hover {
             background: var(--buttonHoverColor);
         }
 
@@ -217,6 +219,7 @@
             /* background: var(--primaryColor); */
             background-color: rgb(235, 63, 63);
         }
+
         /* Styling the heading */
         .heading {
             font-size: 40px;
@@ -231,12 +234,12 @@
             border-color: #124d8d;
             font-style: oblique;
         }
-        .heading:hover{
+
+        .heading:hover {
             font-size: 45px;
             background-color: #9fc;
 
         }
-      
     </style>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <title>Note Taking</title>
@@ -254,13 +257,13 @@
                 <form action="#">
                     <div class="row title">
                         <label for="">Title</label>
-                        <input type="text">
+                        <input type="text" id="title">
                     </div>
                     <div class="row description">
                         <label for="">Description</label>
-                        <textarea></textarea>
+                        <textarea id="desc"></textarea>
                     </div>
-                    <button>Add Note</button>
+                    <button id="button">Add Note</button>
                 </form>
             </div>
         </div>
@@ -272,9 +275,9 @@
             </div>
 
         </li>
-        
-<!--         The new Notes should appear here as <li> elements -->
-        
+
+        <!--         The new Notes should appear here as <li> elements -->
+
     </div>
 
     <script>
@@ -286,6 +289,7 @@
             titleEl.focus();
             popupBox.classList.add('show')
         });
+        var edit = false;
         // script for fixingpop-up box issue
         document.addEventListener("DOMContentLoaded", function () {
             const addBox = document.querySelector('.add-box');
@@ -293,16 +297,18 @@
             const descriptionEl = document.querySelector('textarea');
             const popupBox = document.querySelector('.popup-box');
             const noteList = document.querySelector('.wrapper');
-        
+
+
+
             // Here is function to add a new note.
             function addNote() {
                 const title = titleEl.value.trim();
                 const description = descriptionEl.value.trim();
-            
-                if (title !== "") {
+
+                if (title !== "" && edit == false) {
                     const note = document.createElement('li');
                     note.innerHTML = `
-                        <div class="note">
+                        <div class="note" >
                             <p>${title}</p>
                             <span>${description}</span>
                         </div>
@@ -314,7 +320,7 @@
                             </div>
                         </div>
                     `;
-                    
+
                     noteList.appendChild(note);
                     titleEl.value = "";
                     descriptionEl.value = "";
@@ -322,25 +328,59 @@
                 }
             }
 
-        // Event listeners
-        addBox.addEventListener('click', () => {
-            titleEl.focus();
-            popupBox.classList.add('show');
-        });
+            // Event listeners
+            addBox.addEventListener('click', () => {
+                titleEl.focus();
+                popupBox.classList.add('show');
+            });
 
-        const addButton = document.querySelector('.content form button');
-        addButton.addEventListener('click', addNote);
+            const addButton = document.querySelector('.content form button');
+            addButton.addEventListener('click', addNote);
         });
 
         // Function to close the popup .
         function closePopup() {
             const popupBox = document.querySelector('.popup-box');
             popupBox.classList.remove('show');
+            const Btn = document.getElementById('button');
+            Btn.innerHTML = 'Add Note';
+            edit = false;
         }
 
         // Event listener for the close button .
         const closeButton = document.querySelector('.uil-times');
         closeButton.addEventListener('click', closePopup);
+
+        // Edit Note
+        function editNote(note) {
+            edit = true;
+            note = note.parentElement.parentElement.parentElement;
+            title = document.getElementById('title');
+            desc = document.getElementById('desc');
+            popupBox.classList.add('show')
+            title.value = note.children[0].children[0].innerHTML;
+            desc.value = note.children[0].children[1].innerHTML;
+
+
+            const editBtn = document.getElementById('button');
+            editBtn.innerHTML = 'Edit Note'
+            editBtn.addEventListener('click', () => {
+                note.children[0].children[0].innerHTML = title.value;
+                note.children[0].children[1].innerHTML = desc.value;
+                edit = false;
+                title.value = '';
+                desc.value = '';
+                popupBox.classList.remove('show');
+            });
+        }
+
+
+
+        // Delete Note
+        function removeNote(note) {
+            const noteList = document.querySelector('.wrapper');
+            noteList.removeChild(note.parentElement.parentElement.parentElement)
+        }
 
     </script>
 
